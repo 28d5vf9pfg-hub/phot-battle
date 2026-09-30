@@ -47,6 +47,7 @@ li.you .n{font-weight:500}
   <section class="card" id="meCard" hidden>
     <p class="me">คะแนนของ <span id="meName"></span> <b id="meScore">0</b></p>
     <p class="note" id="status"></p>
+    <p class="note"><a href="#" id="chg" onclick="return false" style="color:inherit">เปลี่ยนชื่อ</a></p>
   </section>
 
   <section class="card">
@@ -100,6 +101,14 @@ li.you .n{font-weight:500}
     $('w1').classList.remove('off'); $('w2').classList.remove('off');
     fetch('/api/tap',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,name:name,p:0,k:0})}).then(poll);
   });
+
+  $('chg').addEventListener('click',function(){
+    flush(); playing=false;
+    $('meCard').hidden=true; $('joinCard').hidden=false;
+    $('w1').classList.add('off'); $('w2').classList.add('off');
+    $('name').focus();
+  });
+  if(name){ $('join').click(); }
 
   function bind(wid,which){
     var w=$(wid),c=0;
