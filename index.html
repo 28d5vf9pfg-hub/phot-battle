@@ -53,6 +53,7 @@ li.you .n{font-weight:500}
   <section class="card">
     <h2>ตารางคะแนน</h2>
     <ol id="board"><li><span class="n">ยังไม่มีใครเล่น</span></li></ol>
+    <p class="note"><a href="#" id="rst" style="color:inherit">รีเซ็ตคะแนนทุกคน (ต้องใช้รหัส)</a></p>
   </section>
 </main>
 <script>
@@ -107,6 +108,15 @@ li.you .n{font-weight:500}
     $('meCard').hidden=true; $('joinCard').hidden=false;
     $('w1').classList.add('off'); $('w2').classList.add('off');
     $('name').focus();
+  });
+  $('rst').addEventListener('click',function(e){
+    e.preventDefault();
+    var key=prompt('ใส่รหัสรีเซ็ต (ADMIN_KEY)'); if(!key) return;
+    fetch('/api/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key})})
+      .then(function(r){
+        if(r.ok){ pendP=0; pendK=0; baseMine=0; $('meScore').textContent=0; alert('รีเซ็ตคะแนนแล้ว'); poll(); }
+        else alert('รหัสไม่ถูกต้อง');
+      }).catch(function(){ alert('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้'); });
   });
   if(name){ $('join').click(); }
 
